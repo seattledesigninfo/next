@@ -1,11 +1,16 @@
 import axios from "axios";
 
+import css from "../css/layout.css";
 import Company from "../components/Company";
 
 function Index({ companies }) {
-  return companies.map((company, i) => (
-    <Company key={`company-${i}`} company={company} />
-  ));
+  return (
+    <section className={css.companies}>
+      {companies.map((company, i) => (
+        <Company key={`company-${i}`} company={company} />
+      ))}
+    </section>
+  );
 }
 
 Index.getInitialProps = async () => {

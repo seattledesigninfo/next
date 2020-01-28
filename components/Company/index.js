@@ -1,2 +1,2 @@
-import Company from "./Company.js";
+import Company from "./Company";
 export default Company;

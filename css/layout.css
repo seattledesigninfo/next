@@ -1,0 +1,26 @@
+.container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  transition: filter 1s;
+}
+
+.about-show-true .container {
+  filter: blur(3px);
+}
+
+.companies {
+  flex: 1 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(191px, 1fr));
+  grid-template-rows: max-content;
+  grid-gap: 1rem;
+}
+
+@media screen and (min-width: 600px) {
+  .companies {
+    grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
+    grid-gap: 2rem;
+  }
+}

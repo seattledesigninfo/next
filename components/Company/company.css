@@ -33,6 +33,7 @@
 }
 
 .services {
+  text-transform: capitalize;
   flex: 1 0 0;
 }
 

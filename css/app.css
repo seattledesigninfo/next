@@ -1,0 +1,124 @@
+:root {
+  --brand-color: hsl(210, 100%, 40%);
+  --link-color: #000;
+  --link-color-hover: hsl(150, 100%, 30%);
+  --focus-color: hsl(40, 100%, 40%);
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  font-family: "Roboto Mono", sans-serif;
+  font-size: 1rem;
+  line-height: 1.475;
+  margin: 0;
+  padding: 1rem 1rem 0;
+}
+
+input {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+p + p {
+  text-indent: 2rem;
+}
+
+a {
+  color: var(--link-color);
+  position: relative;
+  text-decoration: none;
+  background-image: linear-gradient(var(--link-color), var(--link-color));
+  background-position: center 85%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-position 60ms ease-in-out,
+    background-image 60ms ease-in-out, color 60ms ease-in-out;
+}
+
+a:focus,
+a:hover {
+  color: var(--link-color-hover);
+  background-image: linear-gradient(
+    var(--link-color-hover),
+    var(--link-color-hover)
+  );
+  background-position: 0 90%;
+}
+
+:focus {
+  outline: dashed 2px var(--focus-color);
+  outline-offset: 2px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+label {
+  cursor: pointer;
+  transition: color 150ms;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.15;
+  margin-bottom: 0.25rem;
+}
+
+h1 {
+  font-family: Kavivanar;
+}
+
+h6 {
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-weight: normal;
+}
+
+section {
+  padding: 2rem 0;
+}
+
+.seattle-design {
+  font-family: Kavivanar;
+}
+
+button {
+  font-size: 1rem;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+/* a[target="_blank"]:after {
+  content: " external";
+  background: red;
+  font-size: 0.75rem;
+} */
+
+@media screen and (min-width: 600px) {
+  html {
+    font-size: 16px;
+  }
+
+  body {
+    padding: 1rem 2rem 0;
+  }
+}
