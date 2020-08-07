@@ -14,15 +14,32 @@ function Index({ companies }) {
 }
 
 export async function getStaticProps() {
-  const companies = await axios.get(
-    `${process.env.NEXT_PUBLIC_SELF_HOSTNAME}/api/companies`
-  );
+  try {
+    const response = await axios.get(
+      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Companies`,
+      {
+        params: {
+          view: "Grid view",
+        },
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
+        },
+      }
+    );
 
-  return {
-    props: {
-      companies: companies.data.companies,
-    },
-  };
+    return {
+      props: {
+        companies: response.data.records,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        companies: [],
+      },
+    };
+  }
 }
 
 export default Index;
