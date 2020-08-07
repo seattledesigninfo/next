@@ -49,12 +49,14 @@ const reducer = (state, action) => {
 
 export const ServicesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
-    status: "Loading…",
+    status: "initialized",
     services: {},
   });
 
   useEffect(() => {
-    getData(dispatch);
+    if (state.status === "initialized") {
+      getData(dispatch);
+    }
   }, [state.status]);
 
   return (
