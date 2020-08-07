@@ -1,31 +1,32 @@
-import { useEffect, useState } from "react";
 import css from "./company.css";
 
 import { useState as useSizes } from "../../contexts/SizeContext";
 import { useState as useServices } from "../../contexts/ServicesContext";
 
+let companyMatchesServices = (selected, companiesServices) =>
+  Object.entries(selected)
+    .filter(([id, values]) => values.selected)
+    .some(([id, values]) => companiesServices.includes(id));
+
+let companyMatchesSizes = (selectedSizes, size) => selectedSizes.includes(size);
+
 function Company({ company }) {
   const { status, services: selectedServices } = useServices();
   const selectedSizes = useSizes();
 
-  const [visible, setVisibility] = useState(true);
-
   const { name, url, size, services, twitter, linkedin } = company.fields;
 
-  useEffect(() => {
-    let companyMatchesServices = Object.entries(selectedServices)
-      .filter(([id, values]) => values.selected)
-      .some(([id, values]) => services.includes(id));
-
-    let companyMatchesSizes = selectedSizes.includes(size);
-
-    setVisibility(companyMatchesServices && companyMatchesSizes);
-  }, [selectedServices, selectedSizes]);
+  const visible = () => {
+    return (
+      companyMatchesServices(selectedServices, services) &&
+      companyMatchesSizes(selectedSizes, size)
+    );
+  };
 
   return (
     <article
       className={css.company}
-      style={{ display: !visible ? "none" : null }}
+      style={{ display: !visible() ? "none" : null }}
     >
       <header className={css.header}>
         <h1 className={css.name}>
