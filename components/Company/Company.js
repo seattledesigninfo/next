@@ -1,32 +1,43 @@
+import { useState, useCallback } from "react";
 import css from "./company.css";
 
 import { useState as useSizes } from "../../contexts/SizeContext";
 import { useState as useServices } from "../../contexts/ServicesContext";
+import { useMemo, useEffect } from "react";
 
-let companyMatchesServices = (selected, companiesServices) =>
-  Object.entries(selected)
+function compareServices(selectedServices, services) {
+  return Object.entries(selectedServices)
     .filter(([id, values]) => values.selected)
-    .some(([id, values]) => companiesServices.includes(id));
-
-let companyMatchesSizes = (selectedSizes, size) => selectedSizes.includes(size);
+    .some(([id, values]) => services.includes(id));
+}
 
 function Company({ company }) {
   const { status, services: selectedServices } = useServices();
   const selectedSizes = useSizes();
+  const [isVisible, setVisible] = useState(true);
 
   const { name, url, size, services, twitter, linkedin } = company.fields;
 
-  const visible = () => {
-    return (
-      companyMatchesServices(selectedServices, services) &&
-      companyMatchesSizes(selectedSizes, size)
-    );
-  };
+  let companyMatchesServices = useMemo(
+    () => compareServices(selectedServices, services),
+    [selectedServices, services]
+  );
+
+  let companyMatchesSizes = useMemo(() => selectedSizes.includes(size), [
+    selectedSizes,
+    size,
+  ]);
+
+  useEffect(() => {
+    if (status !== "initialized") {
+      setVisible(companyMatchesServices && companyMatchesSizes);
+    }
+  }, [status, companyMatchesServices, companyMatchesSizes]);
 
   return (
     <article
       className={css.company}
-      style={{ display: !visible() ? "none" : null }}
+      style={{ display: !isVisible ? "none" : null }}
     >
       <header className={css.header}>
         <h1 className={css.name}>
@@ -37,22 +48,19 @@ function Company({ company }) {
         <div className={css.size}>{size}</div>
       </header>
 
-      {status === "done" ? (
-        <div className={css.meta}>
-          <div className={css.services}>
-            <h6>Services</h6>
-            {services.map((service) => {
+      <div className={css.meta}>
+        <div className={css.services}>
+          <h6>Services</h6>
+          {status === "done" &&
+            services.map((service) => {
               return (
                 <span key={service} className={css.service}>
                   {selectedServices[service]["name"]}
                 </span>
               );
             })}
-          </div>
         </div>
-      ) : (
-        ""
-      )}
+      </div>
 
       <div className={css.social}>{twitter}</div>
     </article>

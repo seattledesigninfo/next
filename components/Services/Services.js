@@ -6,6 +6,10 @@ const Services = () => {
   const { status, services } = useState();
   const dispatch = useDispatch();
 
+  if (status !== "done") {
+    return <div>Loading…</div>;
+  }
+
   return (
     <form>
       <h6>Services</h6>
