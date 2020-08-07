@@ -13,9 +13,16 @@ function Index({ companies }) {
   );
 }
 
-Index.getInitialProps = async () => {
-  const req = await axios.get(`${process.env.SELF_HOSTNAME}/api/index`);
-  return { ...req.data };
-};
+export async function getStaticProps() {
+  const companies = await axios.get(
+    `${process.env.NEXT_PUBLIC_SELF_HOSTNAME}/api/companies`
+  );
+
+  return {
+    props: {
+      companies: companies.data.companies,
+    },
+  };
+}
 
 export default Index;

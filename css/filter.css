@@ -1,10 +1,21 @@
+.sr {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
 .checkbox {
   display: inline-block;
   margin: 0 0.25rem 0.25rem 0;
 }
 
-.checkbox input[type="checkbox"] {
-  display: none;
+.checkbox input[type="checkbox"]:focus + label {
+  outline: dashed 2px var(--focus-color);
+  outline-offset: 2px;
 }
 
 .checkbox label {

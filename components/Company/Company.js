@@ -1,22 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import css from "./company.css";
-import StateContext from "../../contexts/StateContext";
+
+import { useState as useSizes } from "../../contexts/SizeContext";
+import { useState as useServices } from "../../contexts/ServicesContext";
 
 function Company({ company }) {
-  const { selectedServices, selectedSizes } = useContext(StateContext);
+  const { status, services: selectedServices } = useServices();
+  const selectedSizes = useSizes();
+
   const [visible, setVisibility] = useState(true);
 
-  const [name, url, size, expertise, twitter, linkedin] = company;
-  const services = expertise
-    .toLowerCase()
-    .split(",")
-    .map(item => item.trim())
-    .sort();
+  const { name, url, size, services, twitter, linkedin } = company.fields;
 
   useEffect(() => {
-    let companyMatchesServices = services.some(s =>
-      selectedServices.includes(s)
-    );
+    let companyMatchesServices = Object.entries(selectedServices)
+      .filter(([id, values]) => values.selected)
+      .some(([id, values]) => services.includes(id));
 
     let companyMatchesSizes = selectedSizes.includes(size);
 
@@ -37,16 +36,22 @@ function Company({ company }) {
         <div className={css.size}>{size}</div>
       </header>
 
-      <div className={css.meta}>
-        <div className={css.services}>
-          <h6>Services</h6>
-          {services.map(service => (
-            <span key={service} className={css.service}>
-              {service}
-            </span>
-          ))}
+      {status === "done" ? (
+        <div className={css.meta}>
+          <div className={css.services}>
+            <h6>Services</h6>
+            {services.map((service) => {
+              return (
+                <span key={service} className={css.service}>
+                  {selectedServices[service]["name"]}
+                </span>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
 
       <div className={css.social}>{twitter}</div>
     </article>

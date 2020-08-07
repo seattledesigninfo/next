@@ -1,16 +1,10 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class SeattleDesign extends Document {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
-  }
-
   render() {
     return (
       <Html>
         <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link
             href="https://fonts.googleapis.com/css?family=Kavivanar|Roboto+Mono:400,700&display=swap"
             rel="stylesheet"
@@ -52,6 +46,12 @@ class SeattleDesign extends Document {
           <meta name="theme-color" content="#0000ff" />
         </Head>
         <body>
+          <header>
+            <h1>
+              <a href="#about">Seattle Design</a>
+            </h1>
+          </header>
+
           <Main />
           <NextScript />
         </body>

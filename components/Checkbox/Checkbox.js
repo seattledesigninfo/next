@@ -6,10 +6,13 @@ const Checkbox = ({ index, value, name, ...others }) => {
   return (
     <div className={css.checkbox} data-id={name[value]}>
       <input
+        tabIndex={0}
         name={name}
+        className={css.sr}
         type="checkbox"
         id={`${name}-${index}`}
         value={value}
+        checked={checked}
         {...others}
       />
       <label
