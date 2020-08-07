@@ -9,6 +9,10 @@ class SeattleDesign extends Document {
             href="https://fonts.googleapis.com/css?family=Kavivanar|Roboto+Mono:400,700&display=swap"
             rel="stylesheet"
           />
+          <meta
+            name="description"
+            content="A comprehensive guide to the thriving Seattle graphic and interactive design community."
+          />
 
           <meta property="og:url" content="https://seattledesign.info" />
           <meta property="og:type" content="website" />
@@ -46,12 +50,6 @@ class SeattleDesign extends Document {
           <meta name="theme-color" content="#0000ff" />
         </Head>
         <body>
-          <header>
-            <h1>
-              <a href="#about">Seattle Design</a>
-            </h1>
-          </header>
-
           <Main />
           <NextScript />
         </body>

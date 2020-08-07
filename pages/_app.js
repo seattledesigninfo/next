@@ -9,16 +9,24 @@ import Sizes from "../components/Sizes";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SizeProvider>
-      <ServicesProvider>
-        <section className={filter.companies}>
-          <Services />
-          <Sizes />
-        </section>
+    <React.Fragment>
+      <header>
+        <h1>
+          <a href="#about">Seattle Design</a>
+        </h1>
+      </header>
 
-        <Component {...pageProps} />
-      </ServicesProvider>
-    </SizeProvider>
+      <SizeProvider>
+        <ServicesProvider>
+          <section className={filter.companies}>
+            <Services />
+            <Sizes />
+          </section>
+
+          <Component {...pageProps} />
+        </ServicesProvider>
+      </SizeProvider>
+    </React.Fragment>
   );
 }
 

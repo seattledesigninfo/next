@@ -1,15 +1,18 @@
 import axios from "axios";
 
 import css from "../css/layout.css";
+import Layout from "../components/Layout";
 import Company from "../components/Company";
 
 function Index({ companies }) {
   return (
-    <section className={css.companies}>
-      {companies.map((company, i) => (
-        <Company key={`company-${i}`} company={company} />
-      ))}
-    </section>
+    <Layout>
+      <section className={css.companies}>
+        {companies.map((company, i) => (
+          <Company key={`company-${i}`} company={company} />
+        ))}
+      </section>
+    </Layout>
   );
 }
 
