@@ -16,16 +16,18 @@ function MyApp({ Component, pageProps }) {
         </h1>
       </header>
 
-      <SizeProvider>
-        <ServicesProvider>
-          <section className={filter.companies}>
-            <Services />
-            <Sizes />
-          </section>
+      <main>
+        <SizeProvider>
+          <ServicesProvider>
+            <section className={filter.companies}>
+              <Services />
+              <Sizes />
+            </section>
 
-          <Component {...pageProps} />
-        </ServicesProvider>
-      </SizeProvider>
+            <Component {...pageProps} />
+          </ServicesProvider>
+        </SizeProvider>
+      </main>
     </React.Fragment>
   );
 }
