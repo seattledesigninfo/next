@@ -1,5 +1,8 @@
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import css from "./company.css";
+
+import { slugify } from "../../lib/helpers";
 
 import {
   useServicesDispatch,
@@ -29,11 +32,16 @@ function Company({ company, appState }) {
     >
       <header className={css.header}>
         <h1 className={css.name}>
-          <a href={url} target="_blank" rel="noopener noreferrer">
+          <Link
+            href="/company/[...slug]"
+            as={`/company/${slugify(name)}/${company.id}`}
+          >
+            <a>{name}</a>
+          </Link>
+          {/* <a href={url} target="_blank" rel="noopener noreferrer">
             {name}
-          </a>
+          </a> */}
         </h1>
-        <div className={css.size}>{size}</div>
       </header>
 
       <div className={css.meta}>
@@ -58,15 +66,24 @@ function Company({ company, appState }) {
                   }}
                   key={service}
                   className={css.service}
+                  style={{ fontWeight: isVisible ? "bold" : "normal" }}
                 >
                   {s.name}
                 </span>
               );
             })}
         </div>
+
+        <div>
+          <h2>Size</h2>
+          {size}
+          <br />
+        </div>
       </div>
 
-      <div className={css.social}>{twitter}</div>
+      <div className={css.social}>
+        <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
+      </div>
     </article>
   );
 }
