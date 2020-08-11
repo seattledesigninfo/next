@@ -5,6 +5,7 @@ class SeattleDesign extends Document {
     return (
       <Html>
         <Head>
+          <meta charSet="utf-8" />
           <link
             href="https://fonts.googleapis.com/css?family=Kavivanar|Roboto+Mono:400,700&display=swap"
             rel="stylesheet"
