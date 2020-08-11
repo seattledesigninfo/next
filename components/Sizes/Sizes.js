@@ -8,7 +8,7 @@ const Sizes = () => {
 
   return (
     <form>
-      <h6>Size</h6>
+      <h2>Size</h2>
       {sizes.map((size, index) => {
         const dispatchType = active.includes(size) ? "DESELECT" : "SELECT";
 

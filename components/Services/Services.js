@@ -17,7 +17,7 @@ const Services = () => {
 
   return (
     <form>
-      <h6>Services</h6>
+      <h2>Services</h2>
       {services.map((service, index) => {
         const dispatchType = active.some((s) => s.id === service.id)
           ? "DESELECT"
