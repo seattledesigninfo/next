@@ -38,7 +38,7 @@ function Company({ company, appState }) {
 
       <div className={css.meta}>
         <div className={css.services}>
-          <h6>Services</h6>
+          <h2>Services</h2>
           {status === "done" &&
             services.map((service) => {
               const s = allServices.find((s) => s.id === service);
