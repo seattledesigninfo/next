@@ -12,14 +12,14 @@ const nextConfig = {
     swDest: "static/service-worker.js",
     runtimeCaching: [
       {
-        urlPattern: /^https?.*/,
+        urlPattern: /api/,
         handler: "NetworkFirst",
         options: {
-          cacheName: "https-calls",
-          networkTimeoutSeconds: 15,
+          cacheName: "api",
+          networkTimeoutSeconds: 3,
           expiration: {
-            maxEntries: 150,
-            maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
+            maxEntries: 5,
+            maxAgeSeconds: 24 * 60 * 60, // 1 month
           },
           cacheableResponse: {
             statuses: [0, 200],

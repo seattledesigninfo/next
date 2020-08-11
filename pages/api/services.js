@@ -1,10 +1,13 @@
-import axios from "axios";
+import { setup } from "axios-cache-adapter";
 
-const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Services`;
+const api = setup({
+  baseURL: `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}`,
+  cache: { maxAge: 15 * 60 * 1000, exclude: { query: false } },
+});
 
 export default async (req, res) => {
   try {
-    const response = await axios.get(url, {
+    const response = await api.get("/Services", {
       params: {
         view: "Grid view",
       },
@@ -19,12 +22,9 @@ export default async (req, res) => {
     }
 
     const data = response.data.records.reduce((acc, current) => {
-      return {
-        ...acc,
-        [current.id]: { name: current.fields["Name"], selected: true },
-      };
-    }, {});
+    }, []);
 
+    res.setHeader("Cache-control", "public, max-age=300");
     return res.json({
       statusCode: 200,
       services: data,

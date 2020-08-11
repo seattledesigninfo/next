@@ -1,4 +1,4 @@
-import axios from "axios";
+import { setup } from "axios-cache-adapter";
 
 import css from "../css/layout.css";
 import Layout from "../components/Layout";
@@ -17,19 +17,21 @@ function Index({ companies }) {
 }
 
 export async function getStaticProps() {
+  const api = setup({
+    baseURL: `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}`,
+    cache: { maxAge: 15 * 60 * 1000, exclude: { query: false } },
+  });
+
   try {
-    const response = await axios.get(
-      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Companies`,
-      {
-        params: {
-          view: "Grid view",
-        },
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
-        },
-      }
-    );
+    const response = await api.get("/Companies", {
+      params: {
+        view: "Grid view",
+      },
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
+      },
+    });
 
     return {
       props: {
