@@ -13,8 +13,6 @@ const Services = () => {
     return <div>Loading…</div>;
   }
 
-  console.log(active);
-
   return (
     <form>
       <h2>Services</h2>

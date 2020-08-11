@@ -11,8 +11,6 @@ function Index({ companies }) {
   const { active: activeServices } = useServicesState();
   const { active: activeSizes } = useSizeState();
 
-  console.log(activeServices);
-
   return (
     <Layout>
       <section className={css.companies}>
