@@ -16,7 +16,6 @@ const nextConfig = {
         handler: "StaleWhileRevalidate",
         options: {
           cacheName: "api",
-          networkTimeoutSeconds: 3,
           expiration: {
             maxEntries: 5,
             maxAgeSeconds: 24 * 60 * 60, // 1 month
