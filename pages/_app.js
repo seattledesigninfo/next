@@ -6,11 +6,13 @@ import { ServicesProvider } from "../contexts/ServicesContext";
 function MyApp({ Component, pageProps }) {
   return (
     <React.Fragment>
-      <header>
-        <h1>Seattle Design</h1>
+      <header className="container">
+        <h1 className="text-xxl font-display mt-md mb-xl text-center">
+          Seattle Design
+        </h1>
       </header>
 
-      <main>
+      <main className="container">
         <SizeProvider>
           <ServicesProvider>
             <Component {...pageProps} />

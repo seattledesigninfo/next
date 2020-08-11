@@ -1,59 +1,5 @@
-.company {
-  border-radius: 4px;
-  overflow: hidden;
-  padding: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  border: solid 3px #eee;
-}
-
-.header {
-  align-items: center;
-  display: flex;
-  margin: -0.75rem -0.75rem 0.75rem;
-  padding: 0.75rem;
-}
-
 .name {
-  flex: 1 0 0;
   font-family: Kavivanar;
-  font-size: 1.8rem;
-}
-
-.size {
-  background: rgba(200, 200, 200, 0.5);
-  border-radius: 8px;
-  font-size: 0.75rem;
-  padding: 0.25em;
-}
-
-.meta {
-  font-size: 0.75rem;
-  flex-grow: 1;
-}
-
-.services {
-  text-transform: capitalize;
-  flex: 1 0 0;
-}
-
-.service + .service:before {
-  content: ", ";
-}
-
-.services--selected {
-  font-weight: 700;
-  color: #3920c6;
-}
-
-.social {
-  font-size: 0.75rem;
-  margin-top: 1rem;
-}
-
-.social a {
-  background-image: none;
-  text-decoration: underline;
 }
 
 /*

@@ -1,13 +1,6 @@
-require("dotenv").config();
-const withCSS = require("@zeit/next-css");
 const withOffline = require("next-offline");
 
 const nextConfig = {
-  cssModules: true,
-  cssLoaderOptions: {
-    importLoaders: 1,
-    localIdentName: "[local]___[hash:base64:5]",
-  },
   workboxOpts: {
     swDest: "static/service-worker.js",
     runtimeCaching: [
@@ -29,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withCSS(withOffline(nextConfig));
+module.exports = withOffline(nextConfig);

@@ -7,8 +7,10 @@ const Sizes = () => {
   const dispatch = useSizeDispatch();
 
   return (
-    <form>
-      <h2>Size</h2>
+    <form className="mb-md">
+      <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+        Size
+      </h2>
       {sizes.map((size, index) => {
         const dispatchType = active.includes(size) ? "DESELECT" : "SELECT";
 

@@ -1,5 +1,4 @@
 import Head from "next/head";
-import filter from "../../css/filter.css";
 
 import Services from "../../components/Services";
 import Sizes from "../../components/Sizes";
@@ -14,7 +13,7 @@ const Layout = ({ hideFilters = false, children }) => {
       </Head>
 
       {!hideFilters && (
-        <section className={filter.companies}>
+        <section className="text-center mb-lg">
           <Services />
           <Sizes />
         </section>

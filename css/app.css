@@ -1,117 +1,38 @@
+@tailwind base;
+
 :root {
   --brand-color: hsl(210, 100%, 40%);
+  --highlight-color: hsl(59, 97%, 73%);
   --link-color: #000;
   --link-color-hover: hsl(150, 100%, 30%);
   --focus-color: hsl(40, 100%, 40%);
 }
 
+body,
 html {
-  font-size: 16px;
-}
-
-body {
-  font-family: "Roboto Mono", sans-serif;
-  font-size: 1rem;
-  line-height: 1.475;
-  margin: 0;
-  padding: 1rem 1rem 0;
-}
-
-input {
-  margin: 0;
-}
-
-p {
-  margin: 0;
+  @apply font-mono;
+  @apply text-base;
+  @apply leading-tight;
 }
 
 p + p {
-  text-indent: 2rem;
+  margin-top: 1em;
 }
 
-a {
-  color: var(--link-color);
-  position: relative;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  text-decoration-thickness: 2px;
-  transition: color 100ms ease-in-out;
-}
-
-a:focus,
 a:hover {
   color: var(--link-color-hover);
 }
 
-:focus {
+/* Start purging... */
+@tailwind components;
+
+@tailwind utilities;
+/* Stop purging. */
+
+/* Your own custom utilities */
+
+:focus,
+.checkbox:focus-within {
   outline: dashed 2px var(--focus-color);
   outline-offset: 2px;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  list-style: none;
-}
-
-label {
-  cursor: pointer;
-  transition: color 150ms;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  padding: 0;
-  line-height: 1.15;
-  margin-bottom: 0.25rem;
-}
-
-h1 {
-  font-family: Kavivanar;
-}
-
-h2 {
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
-  font-weight: normal;
-  font-size: 0.66rem;
-}
-
-section {
-  padding: 2rem 0;
-}
-
-.seattle-design {
-  font-family: Kavivanar;
-}
-
-button {
-  font-size: 1rem;
-  background: none;
-  border: none;
-  font-family: inherit;
-}
-
-/* a[target="_blank"]:after {
-  content: " external";
-  background: red;
-  font-size: 0.75rem;
-} */
-
-@media screen and (min-width: 600px) {
-  html {
-    font-size: 18px;
-  }
-
-  body {
-    padding: 1rem 2rem 0;
-  }
 }

@@ -21,6 +21,5 @@
 @media screen and (min-width: 600px) {
   .companies {
     grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
-    grid-gap: 2rem;
   }
 }

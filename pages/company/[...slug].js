@@ -11,33 +11,53 @@ function Company({ id, fields }) {
 
   return (
     <Layout hideFilters={true}>
-      <article>
-        <header>
-          <h1>
-            <a href={url}>{name}</a>
+      <article className="text-center">
+        <header className="mb-md">
+          <h1 className="font-display">
+            <a href={url} className="flex flex-col">
+              <span className="text-xl">{name}</span>
+              {url}
+            </a>
           </h1>
         </header>
 
-        <div>
-          <div>
-            <h2>Services</h2>
-            {status === "done" &&
-              services.map((service) => {
+        <div className="mb-md flex-grow">
+          <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+            Services
+          </h2>
+          {status === "done" &&
+            services
+              .map((service) => {
                 const s = allServices.find((s) => s.id === service);
                 return <span key={service}>{s.name}</span>;
-              })}
-          </div>
-
-          <div>
-            <h2>Size</h2>
-            {size}
-            <br />
-          </div>
+              })
+              .reduce((prev, curr) => [prev, ", ", curr])}
         </div>
 
-        <div>
-          <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
+        <div className="mb-md flex-grow">
+          <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+            Size
+          </h2>
+          {size}
         </div>
+
+        {twitter && (
+          <div className="mb-md flex-grow">
+            <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+              Twitter
+            </h2>
+            <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
+          </div>
+        )}
+
+        {linkedin && (
+          <div className="mb-md flex-grow">
+            <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+              LinkedIn
+            </h2>
+            <a href={linkedin}>{linkedin}</a>
+          </div>
+        )}
       </article>
     </Layout>
   );

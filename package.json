@@ -23,6 +23,8 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^4.0.8"
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "postcss-preset-env": "^6.7.0",
+    "tailwindcss": "^1.6.2"
   }
 }

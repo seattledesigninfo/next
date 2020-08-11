@@ -3,7 +3,6 @@ import { setup } from "axios-cache-adapter";
 import { useServicesState } from "../contexts/ServicesContext";
 import { useSizeState } from "../contexts/SizeContext";
 
-import css from "../css/layout.css";
 import Layout from "../components/Layout";
 import Company from "../components/Company";
 
@@ -13,7 +12,7 @@ function Index({ companies }) {
 
   return (
     <Layout>
-      <section className={css.companies}>
+      <section className="grid flex-grow-0 grid-cols-4 gap-md">
         {companies.map((company, i) => (
           <Company
             key={`company-${i}`}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import css from "./company.css";
+// import css from "./company.css";
 
 import { slugify } from "../../lib/helpers";
 
@@ -27,28 +27,28 @@ function Company({ company, appState }) {
 
   return (
     <article
-      className={css.company}
-      style={{ display: !isVisible ? "none" : null }}
+      className={`rounded-md overflow-hidden p-sm flex flex-col border-solid border-gray-light border-4 ${
+        !isVisible ? "hidden" : ""
+      }`}
     >
-      <header className={css.header}>
-        <h1 className={css.name}>
+      <header className="mb-md">
+        <h1 className="font-display text-lg">
           <Link
             href="/company/[...slug]"
             as={`/company/${slugify(name)}/${company.id}`}
           >
             <a>{name}</a>
           </Link>
-          {/* <a href={url} target="_blank" rel="noopener noreferrer">
-            {name}
-          </a> */}
         </h1>
       </header>
 
-      <div className={css.meta}>
-        <div className={css.services}>
-          <h2>Services</h2>
-          {status === "done" &&
-            services.map((service) => {
+      <div className="mb-md flex-grow">
+        <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+          Services
+        </h2>
+        {status === "done" &&
+          services
+            .map((service) => {
               const s = allServices.find((s) => s.id === service);
               const isVisible = appState.services.some((s) => s.id === service);
               const dispatchType = isVisible ? "DESELECT" : "SELECT";
@@ -65,25 +65,25 @@ function Company({ company, appState }) {
                     });
                   }}
                   key={service}
-                  className={css.service}
-                  style={{ fontWeight: isVisible ? "bold" : "normal" }}
+                  className={`service text-sm ${
+                    isVisible ? "bg-highlight" : ""
+                  }`}
                 >
                   {s.name}
                 </span>
               );
-            })}
-        </div>
-
-        <div>
-          <h2>Size</h2>
-          {size}
-          <br />
-        </div>
+            })
+            .reduce((prev, curr) => [prev, ", ", curr])}
       </div>
 
-      <div className={css.social}>
-        <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
+      <div className="mb-md flex-grow">
+        <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+          Size
+        </h2>
+        {size}
       </div>
+
+      {twitter && <a href={`https://twitter.com/${twitter}`}>{twitter}</a>}
     </article>
   );
 }
