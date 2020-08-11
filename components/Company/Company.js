@@ -1,38 +1,26 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import css from "./company.css";
 
-import { useState as useSizes } from "../../contexts/SizeContext";
-import { useState as useServices } from "../../contexts/ServicesContext";
-import { useMemo, useEffect } from "react";
+import {
+  useServicesDispatch,
+  useServicesState,
+} from "../../contexts/ServicesContext";
 
-function compareServices(selectedServices, services) {
-  return Object.entries(selectedServices)
-    .filter(([id, values]) => values.selected)
-    .some(([id, values]) => services.includes(id));
-}
-
-function Company({ company }) {
-  const { status, services: selectedServices } = useServices();
-  const selectedSizes = useSizes();
+function Company({ company, appState }) {
+  const { status, services: allServices } = useServicesState();
   const [isVisible, setVisible] = useState(true);
+  const dispatch = useServicesDispatch();
 
   const { name, url, size, services, twitter, linkedin } = company.fields;
 
-  let companyMatchesServices = useMemo(
-    () => compareServices(selectedServices, services),
-    [selectedServices, services]
-  );
-
-  let companyMatchesSizes = useMemo(() => selectedSizes.includes(size), [
-    selectedSizes,
-    size,
-  ]);
-
   useEffect(() => {
     if (status !== "initialized") {
-      setVisible(companyMatchesServices && companyMatchesSizes);
+      setVisible(
+        appState.sizes.includes(size) &&
+          appState.services.every((e) => services.includes(e.id))
+      );
     }
-  }, [status, companyMatchesServices, companyMatchesSizes]);
+  }, [status, services, appState.services, appState.sizes]);
 
   return (
     <article
@@ -53,9 +41,25 @@ function Company({ company }) {
           <h6>Services</h6>
           {status === "done" &&
             services.map((service) => {
+              const s = allServices.find((s) => s.id === service);
+              const isVisible = appState.services.some((s) => s.id === service);
+              const dispatchType = isVisible ? "DESELECT" : "SELECT";
+
               return (
-                <span key={service} className={css.service}>
-                  {selectedServices[service]["name"]}
+                <span
+                  onClick={() => {
+                    dispatch({
+                      type: dispatchType,
+                      payload: {
+                        id: service,
+                        name: s.name,
+                      },
+                    });
+                  }}
+                  key={service}
+                  className={css.service}
+                >
+                  {s.name}
                 </span>
               );
             })}

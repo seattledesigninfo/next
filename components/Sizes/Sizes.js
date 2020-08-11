@@ -1,28 +1,27 @@
-import { SIZES } from "../../lib/helpers";
-import { useState, useDispatch } from "../../contexts/SizeContext";
+import { useSizeState, useSizeDispatch } from "../../contexts/SizeContext";
 
 import Checkbox from "../Checkbox";
 
 const Sizes = () => {
-  const sizes = useState();
-  const dispatch = useDispatch();
+  const { sizes, active } = useSizeState();
+  const dispatch = useSizeDispatch();
 
   return (
     <form>
       <h6>Size</h6>
-      {SIZES.map((size, index) => {
-        const dispatchType = sizes.includes(size) ? "DESELECT" : "SELECT";
+      {sizes.map((size, index) => {
+        const dispatchType = active.includes(size) ? "DESELECT" : "SELECT";
 
         return (
           <Checkbox
-            onChange={(event) => {
+            onChange={() => {
               dispatch({ type: dispatchType, payload: size });
             }}
             key={`${size}-${index}`}
             index={index}
             value={size}
             name="sizes"
-            checked={sizes.includes(size)}
+            checked={active.includes(size)}
           />
         );
       })}

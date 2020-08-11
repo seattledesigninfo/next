@@ -1,20 +1,25 @@
-import { useState, useDispatch } from "../../contexts/ServicesContext";
+import {
+  useServicesState,
+  useServicesDispatch,
+} from "../../contexts/ServicesContext";
 
 import Checkbox from "../Checkbox";
 
 const Services = () => {
-  const { status, services } = useState();
-  const dispatch = useDispatch();
+  const { status, services, active } = useServicesState();
+  const dispatch = useServicesDispatch();
 
   if (status !== "done") {
     return <div>Loading…</div>;
   }
 
+  console.log(active);
+
   return (
     <form>
       <h6>Services</h6>
-      {Object.keys(services).map((service, index) => {
-        const dispatchType = services[service]["selected"]
+      {services.map((service, index) => {
+        const dispatchType = active.some((s) => s.id === service.id)
           ? "DESELECT"
           : "SELECT";
 
@@ -23,14 +28,14 @@ const Services = () => {
             onChange={() => {
               dispatch({
                 type: dispatchType,
-                payload: { id: service, name: services[service]["name"] },
+                payload: service,
               });
             }}
-            key={`${service}-${index}`}
+            key={service.id}
             index={index}
-            value={services[service]["name"]}
+            value={service.name}
             name="services"
-            checked={services[service]["selected"]}
+            checked={active.some((s) => s.id === service.id)}
           />
         );
       })}

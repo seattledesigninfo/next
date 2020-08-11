@@ -24,33 +24,31 @@ const reducer = (state, action) => {
     case "SELECT":
       return {
         status: "done",
-        services: {
-          ...state.services,
-          [action.payload.id]: { name: action.payload.name, selected: true },
-        },
+        services: state.services,
+        active: [...state.active, action.payload],
       };
     case "DESELECT":
       return {
         status: "done",
-        services: {
-          ...state.services,
-          [action.payload.id]: { name: action.payload.name, selected: false },
-        },
+        services: state.services,
+        active: state.active.filter((c) => c.id !== action.payload.id),
       };
     case "SET":
       return {
         status: "done",
         services: action.payload,
+        active: [],
       };
     default:
-      return;
+      throw new Error(`Unknown action: ${action.type}`);
   }
 };
 
-export const ServicesProvider = ({ children }) => {
+const ServicesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     status: "initialized",
-    services: {},
+    services: [],
+    active: [],
   });
 
   useEffect(() => {
@@ -68,5 +66,26 @@ export const ServicesProvider = ({ children }) => {
   );
 };
 
-export const useState = () => useContext(ServicesContext);
-export const useDispatch = () => useContext(ServicesDispatch);
+function useServicesState() {
+  const context = useContext(ServicesContext);
+
+  if (context === undefined) {
+    throw new Error("useServicesState must be used within a ServicesProvider");
+  }
+
+  return context;
+}
+
+function useServicesDispatch() {
+  const context = useContext(ServicesDispatch);
+
+  if (context === undefined) {
+    throw new Error(
+      "useServicesDispatch must be used within a ServicesProvider"
+    );
+  }
+
+  return context;
+}
+
+export { ServicesProvider, useServicesState, useServicesDispatch };

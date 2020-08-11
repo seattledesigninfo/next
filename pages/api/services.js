@@ -22,6 +22,7 @@ export default async (req, res) => {
     }
 
     const data = response.data.records.reduce((acc, current) => {
+      return [...acc, { id: current.id, name: current.fields["Name"] }];
     }, []);
 
     res.setHeader("Cache-control", "public, max-age=300");
