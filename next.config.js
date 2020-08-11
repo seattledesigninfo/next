@@ -13,7 +13,7 @@ const nextConfig = {
     runtimeCaching: [
       {
         urlPattern: /api/,
-        handler: "NetworkFirst",
+        handler: "StaleWhileRevalidate",
         options: {
           cacheName: "api",
           networkTimeoutSeconds: 3,
