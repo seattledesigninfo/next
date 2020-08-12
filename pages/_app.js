@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
         </h1>
       </header>
 
-      <main className="container">
+      <main className="container mb-xl">
         <SizeProvider>
           <ServicesProvider>
             <Component {...pageProps} />
