@@ -24,7 +24,7 @@ class SeattleDesign extends Document {
           />
           <meta
             property="og:image"
-            content="https://seattledesign.info/images/og-image.png"
+            content="https://seattledesign.info/og-image.png"
           />
           <meta property="og:image:width" content="600" />
           <meta property="og:image:height" content="315" />
@@ -39,16 +39,16 @@ class SeattleDesign extends Document {
           />
           <meta
             name="twitter:image"
-            content="https://seattledesign.info/images/og-image.png"
+            content="https://seattledesign.info/og-image.png"
           />
           <meta
             name="twitter:image:alt"
             content="Logo for the Seattle Design list."
           />
 
-          <meta name="msapplication-TileColor" content="#0000ff" />
+          <meta name="msapplication-TileColor" content="#0066cc" />
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-          <meta name="theme-color" content="#0000ff" />
+          <meta name="theme-color" content="#0066cc" />
         </Head>
         <body>
           <Main />
