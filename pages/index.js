@@ -12,7 +12,7 @@ function Index({ companies }) {
 
   return (
     <Layout>
-      <section className="grid flex-grow-0 grid-cols-4 gap-md">
+      <section className="grid flex-grow-0 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md">
         {companies.map((company, i) => (
           <Company
             key={`company-${i}`}
