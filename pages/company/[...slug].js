@@ -1,4 +1,6 @@
 import axios from "axios";
+import Head from "next/head";
+
 import { slugify } from "../../lib/helpers";
 
 import { useServicesState } from "../../contexts/ServicesContext";
@@ -11,6 +13,10 @@ function Company({ id, fields }) {
 
   return (
     <Layout hideFilters={true}>
+      <Head>
+        <title>{name} | Seattle Design</title>
+        <meta property="og:title" content={`${name} | Seattle Design`} />
+      </Head>
       <article className="text-center">
         <header className="mb-md">
           <h1 className="font-display">
