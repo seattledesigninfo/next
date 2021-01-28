@@ -15,7 +15,7 @@ function Company({ id, fields }) {
     <Layout hideFilters={true}>
       <Head>
         <title>{name} | Seattle Design</title>
-        <meta property="description" content={`${description}`} />
+        <meta name="description" content={`${description}`} />
         <meta property="og:title" content={`${name} | Seattle Design`} />
       </Head>
       <article className="text-center bg-gray-light p-md rounded-md">
