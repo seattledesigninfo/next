@@ -9,18 +9,19 @@ import Layout from "../../components/Layout";
 
 function Company({ id, fields }) {
   const { status, services: allServices } = useServicesState();
-  const { name, url, size, services, twitter, linkedin } = fields;
+  const { name, url, size, services, description, twitter, linkedin } = fields;
 
   return (
     <Layout hideFilters={true}>
       <Head>
         <title>{name} | Seattle Design</title>
+        <meta property="description" content={`${description}`} />
         <meta property="og:title" content={`${name} | Seattle Design`} />
       </Head>
-      <article className="text-center">
+      <article className="text-center bg-gray-light p-md rounded-md">
         <header className="mb-md">
           <h1 className="font-display">
-            <a href={url} className="flex flex-col">
+            <a rel="noreferrer noopener" href={url} className="flex flex-col">
               <span className="text-xl">{name}</span>
               {url}
             </a>
@@ -64,6 +65,8 @@ function Company({ id, fields }) {
             <a href={linkedin}>{linkedin}</a>
           </div>
         )}
+
+        <div className="mt-lg text-md text-left">{description}</div>
       </article>
     </Layout>
   );
