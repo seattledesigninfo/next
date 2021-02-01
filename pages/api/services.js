@@ -25,7 +25,6 @@ export default async (req, res) => {
       return [...acc, { id: current.id, name: current.fields["Name"] }];
     }, []);
 
-    res.setHeader("Cache-control", "public, max-age=300");
     return res.json({
       statusCode: 200,
       services: data,
