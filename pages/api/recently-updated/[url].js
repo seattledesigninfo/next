@@ -120,7 +120,7 @@ const getLastUpdate = async (url) => {
 };
 
 export default async (req, res) => {
-  res.setHeader("Cache-control", "public, max-age=3600, s-maxage=3600");
+  res.setHeader("Cache-control", "must-revalidate, max-age=3600");
   const {
     query: { url, ar: airtableRecord },
     method,
