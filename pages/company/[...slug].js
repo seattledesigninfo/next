@@ -28,7 +28,7 @@ function Company({ id, fields }) {
   const [updatedRecently, setUpdatedRecently] = useState(false);
 
   const domain = url.match(/https?:\/\/(.+)/);
-  const mapsUrl = `https://www.google.com/maps/place/${name}+${address}+${address_locality}+${postal_code}`;
+  const mapsUrl = `https://www.google.com/maps/place/${address}+${address_locality}+${postal_code}`;
 
   useEffect(() => {
     if (!updatedRecently) {
