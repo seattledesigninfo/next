@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Head from "next/head";
+import DateDiff from "date-diff";
 
 import { slugify } from "../../lib/helpers";
 
@@ -10,6 +12,20 @@ import Layout from "../../components/Layout";
 function Company({ id, fields }) {
   const { status, services: allServices } = useServicesState();
   const { name, url, size, services, description, twitter, linkedin } = fields;
+  const [updatedRecently, setUpdatedRecently] = useState(false);
+
+  const domain = url.match(/https?:\/\/(.+)/);
+
+  useEffect(() => {
+    axios.get(`/api/recently-updated/${domain[1]}`).then((response) => {
+      let today = new Date();
+      let lastChecked = new Date(response.data.lastUpdate);
+
+      if (new DateDiff(today, lastChecked).days() < 7) {
+        setUpdatedRecently(true);
+      }
+    });
+  }, [url, updatedRecently]);
 
   return (
     <Layout hideFilters={true}>
@@ -26,6 +42,11 @@ function Company({ id, fields }) {
               {url}
             </a>
           </h1>
+          {updatedRecently && (
+            <span className="uppercase text-xs p-sm m-sm inline-block text-white bg-link-hover rounded">
+              Updated recently!
+            </span>
+          )}
         </header>
 
         <div className="mb-md flex-grow">

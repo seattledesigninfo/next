@@ -14,7 +14,7 @@ function Company({ company, appState }) {
   const [isVisible, setVisible] = useState(true);
   const dispatch = useServicesDispatch();
 
-  const { name, url, size, services, twitter, linkedin } = company.fields;
+  const { name, size, services, twitter } = company.fields;
 
   useEffect(() => {
     if (status !== "initialized") {
