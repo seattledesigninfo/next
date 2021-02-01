@@ -67,7 +67,12 @@ const updateSiteRecord = async (
   );
 };
 
-const createSiteRecord = async (url, lastUpdate, contentLength) => {
+const createSiteRecord = async (
+  url,
+  airtableRecord,
+  lastUpdate,
+  contentLength
+) => {
   await instance.post(
     "",
     JSON.stringify({
@@ -85,6 +90,20 @@ const createSiteRecord = async (url, lastUpdate, contentLength) => {
         contentLength: contentLength,
       },
     })
+  );
+
+  base("Companies").update(
+    airtableRecord,
+    {
+      last_update: lastUpdate.toLocaleDateString("en-CA"),
+    },
+    function (err) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log("updated airtable");
+    }
   );
 };
 
@@ -138,7 +157,7 @@ export default async (req, res) => {
 
         if (dbContentLength === 0) {
           // the website was not found, so we need to create it update our database
-          await createSiteRecord(url, timestamp, contentLength);
+          await createSiteRecord(url, airtableRecord, timestamp, contentLength);
           return res.status(200).json({
             url,
             contentLength: contentLength,
@@ -147,6 +166,7 @@ export default async (req, res) => {
         } else if (dbContentLength === contentLength) {
           // the website has not been updated since last crawled
           return res.status(200).json({
+            _id,
             url,
             contentLength: contentLength,
             lastUpdate: lastUpdate,
@@ -161,6 +181,7 @@ export default async (req, res) => {
           );
 
           return res.status(200).json({
+            _id,
             url,
             contentLength: contentLength,
             lastUpdate: timestamp,
