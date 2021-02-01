@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-// import css from "./company.css";
+import DateDiff from "date-diff";
 
 import { slugify } from "../../lib/helpers";
 
@@ -8,13 +8,22 @@ import {
   useServicesDispatch,
   useServicesState,
 } from "../../contexts/ServicesContext";
+import { Twitter, Linkedin } from "../../components/Icon";
 
 function Company({ company, appState }) {
   const { status, services: allServices } = useServicesState();
   const [isVisible, setVisible] = useState(true);
+  const [updatedRecently, setUpdatedRecently] = useState(false);
   const dispatch = useServicesDispatch();
 
-  const { name, size, services, twitter } = company.fields;
+  const {
+    name,
+    size,
+    services,
+    last_update,
+    twitter,
+    linkedin,
+  } = company.fields;
 
   useEffect(() => {
     if (status !== "initialized") {
@@ -25,25 +34,34 @@ function Company({ company, appState }) {
     }
   }, [status, services, appState.services, appState.sizes]);
 
+  useEffect(() => {
+    let today = new Date();
+    let lastChecked = new Date(last_update);
+
+    if (new DateDiff(today, lastChecked).days() < 7) {
+      setUpdatedRecently(true);
+    }
+  }, [last_update, updatedRecently]);
+
   return (
     <article
       className={`rounded-md overflow-hidden p-sm flex flex-col border-solid border-gray-light border-4 ${
         !isVisible ? "hidden" : ""
       }`}
     >
-      <header className="mb-md">
-        <h1 className="font-display text-lg">
-          <Link
-            href="/company/[...slug]"
-            as={`/company/${slugify(name)}/${company.id}`}
-          >
-            <a>{name}</a>
-          </Link>
-        </h1>
-      </header>
+      <Link
+        href="/company/[...slug]"
+        as={`/company/${slugify(name)}/${company.id}`}
+      >
+        <a>
+          <header className="mb-md">
+            <h1 className="font-display text-lg">{name}</h1>
+          </header>
+        </a>
+      </Link>
 
-      <div className="mb-md flex-grow">
-        <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+      <div className="mb-lg flex-grow">
+        <h2 className="uppercase tracking-widest text-gray-dark text-sm mb-xs">
           Services
         </h2>
         {status === "done" &&
@@ -65,9 +83,7 @@ function Company({ company, appState }) {
                     });
                   }}
                   key={service}
-                  className={`service text-sm ${
-                    isVisible ? "bg-highlight" : ""
-                  }`}
+                  className={`service ${isVisible ? "bg-highlight" : ""}`}
                 >
                   {s.name}
                 </span>
@@ -76,14 +92,39 @@ function Company({ company, appState }) {
             .reduce((prev, curr) => [prev, ", ", curr])}
       </div>
 
-      <div className="mb-md flex-grow">
-        <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+      <div className="mb-lg flex-grow">
+        <h2 className="uppercase tracking-widest text-gray-dark text-sm mb-xs">
           Size
         </h2>
         {size}
       </div>
 
-      {twitter && <a href={`https://twitter.com/${twitter}`}>{twitter}</a>}
+      <div className="flex">
+        {twitter && (
+          <a
+            rel="noreferrer noopener"
+            className="text-gray-dark hover:text-link-hover p-xs"
+            href={twitter}
+          >
+            <Twitter height="16" width="16" />
+          </a>
+        )}
+        {linkedin && (
+          <a
+            rel="noreferrer noopener"
+            className="text-gray-dark hover:text-link-hover p-xs"
+            href={linkedin}
+          >
+            <Linkedin height="16" width="16" />
+          </a>
+        )}
+      </div>
+
+      {updatedRecently && (
+        <div className="uppercase text-xs inline-block -mx-sm -mb-sm p-sm mt-md bg-gray-light text-brand">
+          Website updated recently
+        </div>
+      )}
     </article>
   );
 }

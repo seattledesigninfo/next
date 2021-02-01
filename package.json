@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
+    "airtable": "^0.10.1",
     "axios": "^0.21.1",
     "axios-cache-adapter": "^2.5.0",
     "date-diff": "^0.2.2",

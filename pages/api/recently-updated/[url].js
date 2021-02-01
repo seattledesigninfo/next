@@ -1,4 +1,9 @@
 import axios from "axios";
+import Airtable from "airtable";
+
+const base = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base(
+  process.env.AIRTABLE_BASE
+);
 
 const instance = axios.create({
   baseURL: "https://graphql.fauna.com/graphql",
@@ -17,11 +22,17 @@ const getContentLength = async (url) => {
       return parseInt(response.data.length, 10);
     }
   } catch (error) {
-    throw error;
+    return 0;
   }
 };
 
-const updateSiteRecord = async (_id, url, lastUpdate, contentLength) => {
+const updateSiteRecord = async (
+  _id,
+  airtableRecord,
+  url,
+  lastUpdate,
+  contentLength
+) => {
   await instance.post(
     "",
     JSON.stringify({
@@ -40,6 +51,19 @@ const updateSiteRecord = async (_id, url, lastUpdate, contentLength) => {
         contentLength: contentLength,
       },
     })
+  );
+
+  base("Companies").update(
+    airtableRecord,
+    {
+      last_update: lastUpdate.toLocaleDateString("en-CA"),
+    },
+    function (err) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    }
   );
 };
 
@@ -96,12 +120,11 @@ const getLastUpdate = async (url) => {
 };
 
 export default async (req, res) => {
+  res.setHeader("Cache-control", "public, max-age=3600, s-maxage=3600");
   const {
-    query: { url },
+    query: { url, ar: airtableRecord },
     method,
   } = req;
-
-  console.log(url);
 
   let requestUrl = new URL(`//${url}`, "https://www.google.com");
   const timestamp = new Date();
@@ -115,7 +138,6 @@ export default async (req, res) => {
 
         if (dbContentLength === 0) {
           // the website was not found, so we need to create it update our database
-
           await createSiteRecord(url, timestamp, contentLength);
           return res.status(200).json({
             url,
@@ -124,14 +146,19 @@ export default async (req, res) => {
           });
         } else if (dbContentLength === contentLength) {
           // the website has not been updated since last crawled
-
           return res.status(200).json({
             url,
             contentLength: contentLength,
             lastUpdate: lastUpdate,
           });
         } else {
-          await updateSiteRecord(_id, url, timestamp, contentLength);
+          await updateSiteRecord(
+            _id,
+            airtableRecord,
+            url,
+            timestamp,
+            contentLength
+          );
 
           return res.status(200).json({
             url,
@@ -140,7 +167,6 @@ export default async (req, res) => {
           });
         }
       } catch (error) {
-        console.log({ error });
         res.status(500).end(`Rutroh`);
       }
       break;

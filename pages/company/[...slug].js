@@ -7,24 +7,38 @@ import { slugify } from "../../lib/helpers";
 
 import { useServicesState } from "../../contexts/ServicesContext";
 
+import { Twitter, Linkedin } from "../../components/Icon";
 import Layout from "../../components/Layout";
 
 function Company({ id, fields }) {
   const { status, services: allServices } = useServicesState();
-  const { name, url, size, services, description, twitter, linkedin } = fields;
+  const {
+    name,
+    url,
+    size,
+    services,
+    description,
+    address,
+    twitter,
+    linkedin,
+    last_update,
+  } = fields;
   const [updatedRecently, setUpdatedRecently] = useState(false);
 
   const domain = url.match(/https?:\/\/(.+)/);
+  const mapsUrl = `https://www.google.com/maps/place/${address}`;
 
   useEffect(() => {
-    axios.get(`/api/recently-updated/${domain[1]}`).then((response) => {
-      let today = new Date();
-      let lastChecked = new Date(response.data.lastUpdate);
+    axios
+      .get(`/api/recently-updated/${domain[1]}?ar=${id}`)
+      .then((response) => {
+        let today = new Date();
+        let lastChecked = new Date(response.data.lastUpdate);
 
-      if (new DateDiff(today, lastChecked).days() < 7) {
-        setUpdatedRecently(true);
-      }
-    });
+        if (new DateDiff(today, lastChecked).days() < 7) {
+          setUpdatedRecently(true);
+        }
+      });
   }, [url, updatedRecently]);
 
   return (
@@ -34,7 +48,7 @@ function Company({ id, fields }) {
         <meta name="description" content={`${description}`} />
         <meta property="og:title" content={`${name} | Seattle Design`} />
       </Head>
-      <article className="text-center bg-gray-light p-md rounded-md">
+      <article className="text-center bg-gray-light p-md rounded-md relative">
         <header className="mb-md">
           <h1 className="font-display">
             <a rel="noreferrer noopener" href={url} className="flex flex-col">
@@ -42,15 +56,38 @@ function Company({ id, fields }) {
               {url}
             </a>
           </h1>
-          {updatedRecently && (
-            <span className="uppercase text-xs p-sm m-sm inline-block text-white bg-link-hover rounded">
-              Updated recently!
-            </span>
-          )}
+          <div
+            className={`uppercase text-xs p-sm m-sm top-0 right-0 text-brand bg-white rounded transition-opacity duration-200 absolute ${
+              updatedRecently ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            Updated recently!
+          </div>
         </header>
 
-        <div className="mb-md flex-grow">
-          <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+        <div className="mb-md flex justify-center">
+          {twitter && (
+            <a
+              rel="noreferrer noopener"
+              className="hover:text-link-hover mx-sm"
+              href={twitter}
+            >
+              <Twitter height="20" width="20" />
+            </a>
+          )}
+          {linkedin && (
+            <a
+              rel="noreferrer noopener"
+              className="hover:text-link-hover mx-sm"
+              href={linkedin}
+            >
+              <Linkedin height="20" width="20" />
+            </a>
+          )}
+        </div>
+
+        <div className="mb-lg flex-grow">
+          <h2 className="uppercase tracking-widest text-gray-dark text-sm mb-xs">
             Services
           </h2>
           {status === "done" &&
@@ -62,30 +99,19 @@ function Company({ id, fields }) {
               .reduce((prev, curr) => [prev, ", ", curr])}
         </div>
 
-        <div className="mb-md flex-grow">
-          <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+        <div className="mb-lg flex-grow">
+          <h2 className="uppercase tracking-widest text-gray-dark text-sm mb-xs">
             Size
           </h2>
           {size}
         </div>
 
-        {twitter && (
-          <div className="mb-md flex-grow">
-            <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
-              Twitter
-            </h2>
-            <a href={`https://twitter.com/${twitter}`}>{twitter}</a>
-          </div>
-        )}
-
-        {linkedin && (
-          <div className="mb-md flex-grow">
-            <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
-              LinkedIn
-            </h2>
-            <a href={linkedin}>{linkedin}</a>
-          </div>
-        )}
+        <div className="mb-lg flex-grow">
+          <h2 className="uppercase tracking-widest text-gray-dark text-sm mb-xs">
+            Location
+          </h2>
+          <a href={mapsUrl.replace(/\s/g, "+")}>{address}</a>
+        </div>
 
         <div className="mt-lg text-md text-left">{description}</div>
       </article>
