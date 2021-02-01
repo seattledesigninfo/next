@@ -1,23 +1,7 @@
 import { useReducer, useContext, createContext, useEffect } from "react";
-import axios from "axios";
 
 const ServicesContext = createContext();
 const ServicesDispatch = createContext();
-
-const getData = async (dispatch) => {
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_SELF_HOSTNAME}/api/services`
-    );
-
-    dispatch({
-      type: "SET",
-      payload: response.data.services,
-    });
-  } catch (error) {
-    throw error;
-  }
-};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -44,7 +28,8 @@ const reducer = (state, action) => {
   }
 };
 
-const ServicesProvider = ({ children }) => {
+const ServicesProvider = (props) => {
+  const { initialState, children } = props;
   const [state, dispatch] = useReducer(reducer, {
     status: "initialized",
     services: [],
@@ -52,10 +37,11 @@ const ServicesProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if (state.status === "initialized") {
-      getData(dispatch);
-    }
-  }, [state.status]);
+    dispatch({
+      type: "SET",
+      payload: initialState,
+    });
+  }, []);
 
   return (
     <ServicesDispatch.Provider value={dispatch}>

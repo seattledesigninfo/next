@@ -48,8 +48,8 @@ module.exports = {
     },
     fontSize: {
       xs: "0.75rem",
-      sm: "1rem",
-      base: "16px",
+      sm: ".9rem",
+      base: "1rem",
       md: "1.5rem",
       lg: "1.75rem",
       xl: "2rem",
@@ -63,9 +63,9 @@ module.exports = {
       ...theme("spacing"),
     }),
     spacing: {
-      xs: "4px",
-      sm: "8px",
-      md: "16px",
+      xs: "6px",
+      sm: "12px",
+      md: "18px",
       lg: "24px",
       xl: "48px",
       none: "0 !important",

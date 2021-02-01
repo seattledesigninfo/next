@@ -1,11 +1,12 @@
-import "../css/app.css";
-
+import App from "next/app";
 import Link from "next/link";
+import axios from "axios";
+import "../css/app.css";
 
 import { SizeProvider } from "../contexts/SizeContext";
 import { ServicesProvider } from "../contexts/ServicesContext";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, services, pageProps }) {
   return (
     <React.Fragment>
       <header className="container">
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }) {
 
       <main className="container mb-xl">
         <SizeProvider>
-          <ServicesProvider>
+          <ServicesProvider initialState={services}>
             <Component {...pageProps} />
           </ServicesProvider>
         </SizeProvider>
@@ -54,5 +55,21 @@ function MyApp({ Component, pageProps }) {
     </React.Fragment>
   );
 }
+
+// Only uncomment this method if you have blocking data requirements for
+// every single page in your application. This disables the ability to
+// perform automatic static optimization, causing every page in your app to
+// be server-side rendered.
+//
+MyApp.getInitialProps = async (appContext) => {
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const services = await axios
+    .get(`${process.env.NEXT_PUBLIC_SELF_HOSTNAME}/api/services`)
+    .then((response) => response.data.services);
+
+  const appProps = await App.getInitialProps(appContext);
+
+  return { services, ...appProps };
+};
 
 export default MyApp;

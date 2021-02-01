@@ -8,7 +8,7 @@ const Sizes = () => {
 
   return (
     <form className="mb-md">
-      <h2 className="uppercase tracking-widest text-gray-dark text-xs mb-sm">
+      <h2 className="uppercase tracking-widest text-gray-dark text-sm mb-xs">
         Size
       </h2>
       {sizes.map((size, index) => {
