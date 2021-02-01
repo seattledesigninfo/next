@@ -1,17 +1,12 @@
-import axios from "axios";
+import { airtable } from "../../lib/airtable";
 import { slugify } from "../../lib/helpers";
 
 import { getServerSideSitemap } from "next-sitemap";
 
 export const getServerSideProps = async (ctx) => {
-  const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Companies`;
-  const response = await axios.get(url, {
+  const response = await airtable.get(url, {
     params: {
       view: "Grid view",
-    },
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
     },
   });
 

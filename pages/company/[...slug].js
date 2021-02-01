@@ -4,6 +4,7 @@ import Head from "next/head";
 import DateDiff from "date-diff";
 
 import { slugify } from "../../lib/helpers";
+import { airtable } from "../../lib/airtable";
 
 import { useServicesState } from "../../contexts/ServicesContext";
 
@@ -23,25 +24,26 @@ function Company({ id, fields }) {
     postal_code,
     twitter,
     linkedin,
-    last_update,
   } = fields;
   const [updatedRecently, setUpdatedRecently] = useState(false);
 
   const domain = url.match(/https?:\/\/(.+)/);
-  const mapsUrl = `https://www.google.com/maps/place/${address}`;
+  const mapsUrl = `https://www.google.com/maps/place/${name}+${address}+${address_locality}+${postal_code}`;
 
   useEffect(() => {
-    axios
-      .get(`/api/recently-updated/${domain[1]}?ar=${id}`)
-      .then((response) => {
-        let today = new Date();
-        let lastChecked = new Date(response.data.lastUpdate);
+    if (!updatedRecently) {
+      axios
+        .get(`/api/recently-updated/${domain[1]}?ar=${id}`)
+        .then((response) => {
+          let today = new Date();
+          let lastChecked = new Date(response.data.lastUpdate);
 
-        if (new DateDiff(today, lastChecked).days() < 7) {
-          setUpdatedRecently(true);
-        }
-      });
-  }, [url, updatedRecently]);
+          if (new DateDiff(today, lastChecked).days() < 7) {
+            setUpdatedRecently(true);
+          }
+        });
+    }
+  }, [domain, updatedRecently]);
 
   return (
     <Layout hideFilters={true}>
@@ -144,15 +146,8 @@ export async function getStaticProps({ ...ctx }) {
   const { slug } = ctx.params;
   const [name, id] = slug;
 
-  const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Companies/${id}`;
-
   try {
-    const response = await axios.get(url, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
-      },
-    });
+    const response = await airtable.get(`/Companies/${id}`);
 
     return {
       props: {
@@ -172,14 +167,9 @@ export async function getStaticProps({ ...ctx }) {
 }
 
 export async function getStaticPaths() {
-  const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Companies`;
-  const response = await axios.get(url, {
+  const response = await airtable.get("/Companies", {
     params: {
       view: "Grid view",
-    },
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
     },
   });
 
