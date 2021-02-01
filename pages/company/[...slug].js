@@ -19,6 +19,8 @@ function Company({ id, fields }) {
     services,
     description,
     address,
+    address_locality,
+    postal_code,
     twitter,
     linkedin,
     last_update,
@@ -47,6 +49,25 @@ function Company({ id, fields }) {
         <title>{name} | Seattle Design</title>
         <meta name="description" content={`${description}`} />
         <meta property="og:title" content={`${name} | Seattle Design`} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "@id": url,
+              name: name,
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: address_locality,
+                addressRegion: "WA",
+                postalCode: postal_code,
+                streetAddress: address,
+              },
+              url: url,
+            }),
+          }}
+        />
       </Head>
       <article className="text-center bg-gray-light p-md rounded-md relative">
         <header className="mb-md">
