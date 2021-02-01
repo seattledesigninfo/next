@@ -1,5 +1,10 @@
 module.exports = {
-  purge: ["./components/**/*.js", "./pages/**/*.js"],
+  future: {
+    purgeLayersByDefault: true,
+  },
+  purge: {
+    content: ["./components/**/*.js", "./pages/**/*.js"],
+  },
   theme: {
     colors: {
       brand: "var(--brand-color)",

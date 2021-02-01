@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --brand-color: hsl(210, 100%, 40%);
@@ -22,14 +24,6 @@ p + p {
 a:hover {
   color: var(--link-color-hover);
 }
-
-/* Start purging... */
-@tailwind components;
-
-@tailwind utilities;
-/* Stop purging. */
-
-/* Your own custom utilities */
 
 :focus,
 .checkbox:focus-within {
