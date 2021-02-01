@@ -19,15 +19,13 @@
           "value": "/"
         }
       ]
-    },
+    }
+  ],
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        }
-      ]
+      "src": "/api/(.*)",
+      "headers": { "cache-control": "public, s-maxage=3600, max-age=3600" },
+      "dest": "/api/$1"
     }
   ]
 }
