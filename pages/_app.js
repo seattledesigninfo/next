@@ -3,6 +3,10 @@ import Link from "next/link";
 import axios from "axios";
 import "../css/app.css";
 
+const instance = axios.create({
+  baseURL: `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}`,
+});
+
 import { SizeProvider } from "../contexts/SizeContext";
 import { ServicesProvider } from "../contexts/ServicesContext";
 
@@ -63,13 +67,23 @@ function MyApp({ Component, services, pageProps }) {
 //
 MyApp.getInitialProps = async (appContext) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const services = await axios
-    .get(`${process.env.NEXT_PUBLIC_SELF_HOSTNAME}/api/services`)
-    .then((response) => response.data.services);
+  const response = await instance.get("/Services", {
+    params: {
+      view: "Grid view",
+    },
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
+    },
+  });
+
+  const data = response.data.records.reduce((acc, current) => {
+    return [...acc, { id: current.id, name: current.fields["Name"] }];
+  }, []);
 
   const appProps = await App.getInitialProps(appContext);
 
-  return { services, ...appProps };
+  return { services: data, ...appProps };
 };
 
 export default MyApp;
