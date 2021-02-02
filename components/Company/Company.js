@@ -99,7 +99,7 @@ function Company({ company, appState }) {
         {size}
       </div>
 
-      <div className="flex">
+      <div className="-ml-xs flex">
         {twitter && (
           <a
             rel="noreferrer noopener"

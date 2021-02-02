@@ -14,7 +14,7 @@ body,
 html {
   @apply font-mono;
   @apply text-sm;
-  @apply leading-tight;
+  @apply leading-snug;
 }
 
 @screen md {

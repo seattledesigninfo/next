@@ -14,7 +14,7 @@ function MyApp({ Component, services, pageProps }) {
       <header className="container">
         <Link href="/">
           <a>
-            <h1 className="text-xxl font-display mt-md mb-xl text-center">
+            <h1 className="text-xl font-display mt-md mb-xl text-center">
               Seattle Design
             </h1>
           </a>

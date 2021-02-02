@@ -12,7 +12,12 @@ import { Twitter, Linkedin } from "../../components/Icon";
 import Layout from "../../components/Layout";
 
 function Company({ id, fields }) {
-  const { status, services: allServices } = useServicesState();
+  const {
+    status,
+    active: activeServices,
+    services: allServices,
+  } = useServicesState();
+
   const {
     name,
     url,
@@ -117,7 +122,18 @@ function Company({ id, fields }) {
             services
               .map((service) => {
                 const s = allServices.find((s) => s.id === service);
-                return <span key={service}>{s.name}</span>;
+                const highlight = activeServices.filter(
+                  (s) => s.id === service
+                );
+
+                return (
+                  <span
+                    className={highlight.length > 0 ? "bg-highlight" : ""}
+                    key={service}
+                  >
+                    {s.name}
+                  </span>
+                );
               })
               .reduce((prev, curr) => [prev, ", ", curr])}
         </div>
