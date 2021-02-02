@@ -1,11 +1,9 @@
 import App from "next/app";
 import Link from "next/link";
-import axios from "axios";
-import "../css/app.css";
 
-const instance = axios.create({
-  baseURL: `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}`,
-});
+import { airtable } from "../lib/airtable";
+
+import "../css/app.css";
 
 import { SizeProvider } from "../contexts/SizeContext";
 import { ServicesProvider } from "../contexts/ServicesContext";
@@ -16,7 +14,7 @@ function MyApp({ Component, services, pageProps }) {
       <header className="container">
         <Link href="/">
           <a>
-            <h1 className="text-xxl font-display mt-md mb-xl text-center">
+            <h1 className="text-xl font-display mt-md mb-xl text-center">
               Seattle Design
             </h1>
           </a>
@@ -67,13 +65,9 @@ function MyApp({ Component, services, pageProps }) {
 //
 MyApp.getInitialProps = async (appContext) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const response = await instance.get("/Services", {
+  const response = await airtable.get("/Services", {
     params: {
       view: "Grid view",
-    },
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${process.env.AIRTABLE_KEY}`,
     },
   });
 

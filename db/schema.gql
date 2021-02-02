@@ -1,0 +1,9 @@
+type Site {
+  url: String! @unique
+  lastUpdate: Time!
+  contentLength: Int!
+}
+
+type Query {
+  getSiteByUrl(url: String!): Site!
+}
