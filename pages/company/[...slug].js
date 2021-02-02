@@ -46,6 +46,9 @@ function Company({ id, fields }) {
           if (new DateDiff(today, lastChecked).days() < 7) {
             setUpdatedRecently(true);
           }
+        })
+        .catch((error) => {
+          console.log(error);
         });
     }
   }, [domain, updatedRecently]);

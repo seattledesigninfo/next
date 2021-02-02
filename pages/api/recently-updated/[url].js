@@ -22,7 +22,7 @@ const getContentLength = async (url) => {
       return parseInt(response.data.length, 10);
     }
   } catch (error) {
-    return 0;
+    throw error;
   }
 };
 
@@ -33,10 +33,11 @@ const updateSiteRecord = async (
   lastUpdate,
   contentLength
 ) => {
-  await instance.post(
-    "",
-    JSON.stringify({
-      query: `mutation ($id: ID!, $url: String!, $lastUpdate: Time!, $contentLength: Int!) {
+  await instance
+    .post(
+      "",
+      JSON.stringify({
+        query: `mutation ($id: ID!, $url: String!, $lastUpdate: Time!, $contentLength: Int!) {
         updateSite(id: $id, data: { url: $url, lastUpdate: $lastUpdate, contentLength: $contentLength }) {
           url
           lastUpdate
@@ -44,19 +45,22 @@ const updateSiteRecord = async (
         }
       }
       `,
-      variables: {
-        id: _id,
-        url: url,
-        lastUpdate: lastUpdate,
-        contentLength: contentLength,
-      },
-    })
-  );
+        variables: {
+          id: _id,
+          url: url,
+          lastUpdate: lastUpdate,
+          contentLength: contentLength,
+        },
+      })
+    )
+    .catch((error) => {
+      console.log("cannot update fauna");
+    });
 
   base("Companies").update(
     airtableRecord,
     {
-      last_update: lastUpdate.toLocaleDateString("en-CA"),
+      last_update: lastUpdate,
     },
     function (err) {
       if (err) {
@@ -95,14 +99,13 @@ const createSiteRecord = async (
   base("Companies").update(
     airtableRecord,
     {
-      last_update: lastUpdate.toLocaleDateString("en-CA"),
+      last_update: lastUpdate,
     },
     function (err) {
       if (err) {
         console.error(err);
         return;
       }
-      console.log("updated airtable");
     }
   );
 };
@@ -188,7 +191,7 @@ export default async (req, res) => {
           });
         }
       } catch (error) {
-        res.status(500).end(`Rutroh`);
+        res.status(200).json({ url: url, error: error.message });
       }
       break;
     default:
