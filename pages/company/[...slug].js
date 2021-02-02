@@ -162,6 +162,7 @@ export async function getStaticProps({ ...ctx }) {
         id: null,
         fields: [],
       },
+      revalidate: 30,
     };
   }
 }
