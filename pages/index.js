@@ -43,6 +43,7 @@ export async function getStaticProps() {
       props: {
         companies: [],
       },
+      revalidate: 3600,
     };
   }
 }
