@@ -13,15 +13,8 @@
 body,
 html {
   @apply font-mono;
-  @apply text-sm;
+  @apply text-base;
   @apply leading-snug;
-}
-
-@screen md {
-  body,
-  html {
-    @apply text-base;
-  }
 }
 
 p + p {
