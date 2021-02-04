@@ -104,7 +104,7 @@ function Company({ company, appState }) {
           <a
             rel="noreferrer noopener"
             className="text-gray-dark hover:text-link-hover p-xs"
-            href={twitter}
+            href={`https://twitter.com/${twitter}`}
           >
             <Twitter height="16" width="16" />
           </a>
