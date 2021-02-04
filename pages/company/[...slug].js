@@ -101,7 +101,7 @@ function Company({ id, fields }) {
             <a
               rel="noreferrer noopener"
               className="hover:text-link-hover mx-sm"
-              href={twitter}
+              href={`https://twitter.com/${twitter}`}
             >
               <Twitter height="20" width="20" />
             </a>
