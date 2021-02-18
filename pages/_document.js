@@ -48,20 +48,10 @@ class SeattleDesign extends Document {
           <meta name="theme-color" content="#0066cc" />
           <script
             async
-            src="https://www.googletagmanager.com/gtag/js?id=UA-100410276-1"
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-100410276-1', {
-              page_path: window.location.pathname,
-            });
-          `,
-            }}
-          />
+            defer
+            data-domain="seattledesign.info"
+            src="https://plausible.io/js/plausible.js"
+          ></script>
         </Head>
         <body>
           <Main />
