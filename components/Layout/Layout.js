@@ -5,7 +5,7 @@ import Sizes from "../../components/Sizes";
 
 const Layout = ({ hideFilters = false, children }) => {
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>Seattle Design</title>
         <meta property="og:title" content="Seattle Design" />
@@ -19,7 +19,7 @@ const Layout = ({ hideFilters = false, children }) => {
         </section>
       )}
       {children}
-    </React.Fragment>
+    </>
   );
 };
 

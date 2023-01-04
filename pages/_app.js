@@ -10,7 +10,7 @@ import { ServicesProvider } from "../contexts/ServicesContext";
 
 function MyApp({ Component, services, pageProps }) {
   return (
-    <React.Fragment>
+    <>
       <header className="container">
         <Link href="/">
           <a>
@@ -54,7 +54,7 @@ function MyApp({ Component, services, pageProps }) {
           </a>
         </p>
       </footer>
-    </React.Fragment>
+    </>
   );
 }
 
