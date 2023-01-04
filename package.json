@@ -13,22 +13,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@zeit/next-css": "^1.0.1",
     "airtable": "^0.10.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "date-diff": "^0.2.2",
     "dotenv": "^8.2.0",
-    "next": "^9.5.4",
-    "next-offline": "^5.0.2",
-    "next-sitemap": "^1.4.15",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "next": "^12.2.3",
+    "next-sitemap": "^3.1.15",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@next/env": "^12.2.3",
     "eslint": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.8",
     "postcss-preset-env": "^6.7.0",
-    "tailwindcss": "^1.6.2",
+    "tailwindcss": "^3.2.4",
     "webpack": "^4.19.1"
   }
 }
